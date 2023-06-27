@@ -38,12 +38,11 @@ const App = () => {
               Find Your Next Companion
             </Typography>
             <Button
-              variant="outlined"
+              variant="contained"
               onClick={() => setCanSearch(true)}
               sx={{
                 fontSize: "2rem",
                 fontWeight: "bold",
-                color: "black",
                 placeSelf: "center",
               }}
             >

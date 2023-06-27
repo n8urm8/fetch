@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { setSessionName } from "./userSession";
-import { SearchQueryParams, SearchResults } from "./types";
+import { Dog, SearchQueryParams, SearchResults } from "./types";
 
 const API_URL = "https://frontend-take-home-service.fetch.com";
 
@@ -65,16 +65,18 @@ export const getBreeds = async () => {
 };
 
 export const searchDogs = async (params: SearchQueryParams) => {
-  let url = API_URL + "/dogs/search?size=18";
-  Object.keys(params).forEach((key, i) => {
-    // @ts-expect-error
-    let data: any = params[key];
-    if (Array.isArray(data)) {
-      data = `${data.join()}`;
-    }
-    url += `&${key}=${data}`;
-  });
-
+  let url =
+    API_URL +
+    `/dogs/search?size=18${params.breeds ? "&breeds=" + params.breeds : ""}${
+      params.zipCodes ? "&zipCodes=" + params.zipCodes : ""
+    }${params.ageMax ? "&ageMax=" + params.ageMax : ""}${
+      params.ageMin ? "&ageMin=" + params.ageMin : ""
+    }${
+      params.sortField
+        ? "&sort=" + params.sortField + ":" + (params.sortOrder || "asc")
+        : ""
+    }`;
+  console.log("SEARCH URL:", url);
   const requestOptions = {
     method: "GET",
     mode: "cors" as RequestMode,
@@ -88,7 +90,8 @@ export const searchDogs = async (params: SearchQueryParams) => {
   //console.log("name and email:", name, email);
   let response = await fetch(url, requestOptions);
   if (response.status != 200) {
-    window.location.reload();
+    //window.location.reload();
+    window.alert(`url search error ${url}`);
   }
   const searchDogs: SearchResults = await response.json();
   return searchDogs;
@@ -113,7 +116,7 @@ export const getDogsByIds = async (ids: string[]) => {
   if (response.status != 200) {
     window.location.reload();
   }
-  const dogs = await response.json();
+  const dogs: Dog[] = await response.json();
   return dogs;
 };
 

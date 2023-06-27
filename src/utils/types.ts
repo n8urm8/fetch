@@ -17,12 +17,13 @@ export interface Location {
 }
 
 export interface SearchQueryParams {
-  breeds?: string[];
-  zipCodes?: string[];
+  breeds?: string;
+  zipCodes?: string;
   ageMin?: string;
   ageMax?: string;
   from?: string;
-  sort?: "asc" | "desc";
+  sortField?: "id" | "name" | "age" | "zip_code" | "breed";
+  sortOrder?: "asc" | "desc";
 }
 
 export interface SearchResults {

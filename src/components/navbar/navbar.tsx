@@ -51,7 +51,12 @@ export const ResponsiveAppBar = ({
     <AppBar position="static" sx={{ background: "transparent" }}>
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <PetsIcon sx={{ display: { xs: "none", md: "flex", mr: 1 } }} />
+          <PetsIcon
+            sx={{
+              display: { xs: "none", md: "flex", mr: 1 },
+              color: "primary.main",
+            }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -63,7 +68,7 @@ export const ResponsiveAppBar = ({
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "primary.main",
               textDecoration: "none",
               paddingLeft: "1rem",
             }}
@@ -83,7 +88,13 @@ export const ResponsiveAppBar = ({
               <MenuIcon />
             </IconButton>
           </Box> */}
-          <PetsIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <PetsIcon
+            sx={{
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+              color: "primary.main",
+            }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -96,7 +107,7 @@ export const ResponsiveAppBar = ({
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "primary.main",
               textDecoration: "none",
             }}
           >

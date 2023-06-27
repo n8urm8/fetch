@@ -14,6 +14,7 @@ import {
   searchDogsByURL,
 } from "../../utils/api";
 import { Dog, SearchResults } from "../../utils/types";
+import { FilterForm } from "./filterForm";
 
 export const SearchDogs: React.FC = () => {
   const [filter, openFilter] = useState(false);
@@ -38,8 +39,10 @@ export const SearchDogs: React.FC = () => {
     "iHGFTIcBOvEgQ5OCx40W",
     "jnGFTIcBOvEgQ5OCx40W",
   ]);
-  const [breeds, setBreeds] = useState<string>();
-  const [dogs, setDogs] = useState<Dog[]>();
+  const [breeds, setBreeds] = useState<string[]>([]);
+  const [dogs, setDogs] = useState<Dog[]>([]);
+  const [sort, setSort] = useState<"asc" | "desc">("asc");
+  const [totalDogs, setTotalDogs] = useState<string>("");
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
   console.log("next url, prev url", nextPage, prevPage);
@@ -52,6 +55,7 @@ export const SearchDogs: React.FC = () => {
     setDogIds(newDogIdList.resultIds);
     setNextPage(newDogIdList.next);
     setPrevPage(newDogIdList.prev);
+    setTotalDogs(newDogIdList.total);
     const dogsResult = getDogsByIds(newDogIdList.resultIds);
     dogsResult.then((res) => setDogs(res));
   };
@@ -63,6 +67,7 @@ export const SearchDogs: React.FC = () => {
       setDogIds(res.resultIds);
       setNextPage(res.next);
       setPrevPage(res.prev);
+      setTotalDogs(res.total);
     });
     const breedResults = getBreeds();
     breedResults.then((res) => setBreeds(res));
@@ -85,64 +90,93 @@ export const SearchDogs: React.FC = () => {
         elevation={6}
         square
       >
+        {filter && (
+          <FilterForm
+            breeds={breeds}
+            zipcodes={[]}
+            setDogs={setDogs}
+            setSort={setSort}
+            setNext={setNextPage}
+            setPrev={setPrevPage}
+            setTotal={setTotalDogs}
+          />
+        )}
+
+        <>
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            mx={1}
+            mb={1}
+            mt={0.5}
+          >
+            <Typography
+              sx={{ cursor: "pointer" }}
+              color={filter ? "primary.main" : "white"}
+              onClick={() => openFilter(!filter)}
+            >
+              filter {!filter ? "+" : "-"}
+            </Typography>
+            <Typography fontSize={".75rem"} color={"white"}>
+              Dogs Found: {totalDogs}
+            </Typography>
+          </Box>
+          <ImageList
+            cols={6}
+            rowHeight={"auto"}
+            sx={{ display: { xs: "none", md: "grid" }, mt: 0 }}
+          >
+            {dogs &&
+              dogs.map((item) => (
+                <ImageListItem key={item.id}>
+                  <img src={`${item.img}`} alt={item.name} loading="lazy" />
+                </ImageListItem>
+              ))}
+          </ImageList>
+          <ImageList
+            cols={3}
+            rowHeight={"auto"}
+            sx={{ display: { xs: "grid", md: "none" }, mt: 0 }}
+          >
+            {dogs &&
+              dogs.map((item) => (
+                <ImageListItem key={item.id}>
+                  <img src={`${item.img}`} alt={item.name} loading="lazy" />
+                </ImageListItem>
+              ))}
+          </ImageList>
+        </>
         <Box
           display={"flex"}
           justifyContent={"space-between"}
           flexDirection={"row"}
           textAlign={"center"}
           px={".5rem"}
+          mt={"-.5rem"}
+          mb={".5rem"}
         >
-          {prevPage && (
+          {prevPage ? (
             <Typography
               sx={{ cursor: "pointer", color: "white" }}
               onClick={() => getNewDogsWithURL(prevPage)}
             >
               &larr; Previous Page
             </Typography>
+          ) : (
+            <div></div>
           )}
-          <Typography
-            sx={{ cursor: "pointer", color: "white" }}
-            onClick={() => openFilter(!filter)}
-          >
-            filter -
-          </Typography>
-          {nextPage && (
+          {nextPage ? (
             <Typography
               sx={{ cursor: "pointer", color: "white" }}
               onClick={() => getNewDogsWithURL(nextPage)}
             >
               Next Page &rarr;
             </Typography>
+          ) : (
+            <div></div>
           )}
         </Box>
-        {dogs !== undefined && (
-          <>
-            <ImageList
-              cols={6}
-              rowHeight={"auto"}
-              sx={{ display: { xs: "none", md: "grid" } }}
-            >
-              {dogs &&
-                dogs.map((item) => (
-                  <ImageListItem key={item.id}>
-                    <img src={`${item.img}`} alt={item.name} loading="lazy" />
-                  </ImageListItem>
-                ))}
-            </ImageList>
-            <ImageList
-              cols={3}
-              rowHeight={"auto"}
-              sx={{ display: { xs: "grid", md: "none" } }}
-            >
-              {dogs &&
-                dogs.map((item) => (
-                  <ImageListItem key={item.id}>
-                    <img src={`${item.img}`} alt={item.name} loading="lazy" />
-                  </ImageListItem>
-                ))}
-            </ImageList>
-          </>
-        )}
       </Grid>
     </>
   );
