@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { setSessionName } from "./userSession";
 import { Dog, SearchQueryParams, SearchResults } from "./types";
 
