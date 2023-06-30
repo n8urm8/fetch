@@ -38,3 +38,9 @@ export interface Match {
 }
 
 export type updateFavoriteDogMethod = "add" | "remove";
+
+export interface ISession {
+  name: string;
+  expires: number;
+  favoriteDogs: Dog[];
+}

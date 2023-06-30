@@ -1,10 +1,4 @@
-import { Dog, updateFavoriteDogMethod } from "./types";
-
-interface ISession {
-  name: string;
-  expires: number;
-  favoriteDogs: Dog[];
-}
+import { Dog, ISession, updateFavoriteDogMethod } from "./types";
 
 const setSessionName = (name: string, clear?: boolean) => {
   const expiresOn = new Date();

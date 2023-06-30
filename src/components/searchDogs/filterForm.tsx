@@ -71,7 +71,7 @@ const marks = [
 
 interface IFilterForm {
   breeds: string[];
-  zipcodes: string[];
+  zipcodes?: string[];
   setDogs: (dogs: Dog[]) => void;
   setSort: (sort: "asc" | "desc") => void;
   setNext: (next: string) => void;
@@ -89,7 +89,6 @@ ageMax - number string
 
 export const FilterForm: React.FC<IFilterForm> = ({
   breeds,
-  zipcodes,
   setDogs,
   setPrev,
   setNext,
