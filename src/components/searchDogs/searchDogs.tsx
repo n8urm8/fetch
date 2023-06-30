@@ -95,6 +95,7 @@ export const SearchDogs: React.FC = () => {
         elevation={6}
         square
       >
+        <Favorites />
         {filter && (
           <FilterForm
             breeds={breeds}
@@ -127,7 +128,6 @@ export const SearchDogs: React.FC = () => {
               Dogs Found: {totalDogs}
             </Typography>
           </Box>
-          <Favorites />
           <ImageList
             cols={6}
             rowHeight={"auto"}

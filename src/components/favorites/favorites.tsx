@@ -66,7 +66,7 @@ export const Favorites: React.FC = () => {
 
   return (
     <>
-      {openModal && <Confetti />}
+      {openModal && <Confetti width={window.innerWidth} />}
       {favoritesList.length > 0 && (
         <>
           <Typography color={"white"} ml={1}>
