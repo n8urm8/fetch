@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MainLayout } from "./components/layouts/main";
 import { SignInSide } from "./components/auth";
 import { getSessionName } from "./utils/userSession";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { SearchDogs } from "./components/searchDogs";
 
 const App = () => {
@@ -29,14 +29,6 @@ const App = () => {
       >
         {!canSearch && (
           <Box display={"flex"} flexDirection={"column"} mt={6}>
-            {/* <Typography
-              sx={{ mx: { xs: "1rem" } }}
-              variant="h2"
-              mt={4}
-              color="black"
-            >
-              Find Your Next Companion
-            </Typography> */}
             <Button
               variant="contained"
               onClick={() => setCanSearch(true)}

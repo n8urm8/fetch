@@ -3,6 +3,7 @@ import type { Preview } from "@storybook/react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { withThemeFromJSXProvider } from "@storybook/addon-styling";
 import theme from "../src/theme";
+import { login } from "../src/utils/api";
 
 /* TODO: update import for your custom Material UI themes */
 // import { lightTheme, darkTheme } from '../path/to/themes';
@@ -13,7 +14,8 @@ import theme from "../src/theme";
 const preview: Preview = {
   loaders: [
     // @ts-expect-error
-    () => {
+    async () => {
+      await login(mockAuth.name, mockAuth.email);
       const data = JSON.stringify(mockSession);
       sessionStorage.setItem("currentFetchSession", data);
     },
@@ -84,3 +86,5 @@ const mockSession = {
     },
   ],
 };
+
+const mockAuth = { name: "mememe", email: "asd@asd.com" };

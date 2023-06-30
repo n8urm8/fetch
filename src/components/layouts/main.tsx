@@ -1,6 +1,5 @@
-import { Container, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { ResponsiveAppBar } from "../navbar";
-import BackgroundDog from "/images/dogBeach.jpg";
 
 export const MainLayout = ({
   name,

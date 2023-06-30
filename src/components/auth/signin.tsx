@@ -31,11 +31,6 @@ export const SignInSide = ({
     } else {
       setError("400: Login not accepted");
     }
-
-    // console.log({
-    //   name,
-    //   email,
-    // });
   };
 
   return (
@@ -83,10 +78,6 @@ export const SignInSide = ({
               name="email"
               autoComplete="email"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             {error && <Typography color="red">{error}</Typography>}
             <Button
               type="submit"
@@ -96,18 +87,6 @@ export const SignInSide = ({
             >
               Sign In
             </Button>
-            {/* <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid> */}
           </Box>
         </Box>
       </Grid>
