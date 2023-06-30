@@ -28,15 +28,15 @@ const App = () => {
         }}
       >
         {!canSearch && (
-          <Box display={"flex"} flexDirection={"column"}>
-            <Typography
+          <Box display={"flex"} flexDirection={"column"} mt={6}>
+            {/* <Typography
               sx={{ mx: { xs: "1rem" } }}
               variant="h2"
               mt={4}
               color="black"
             >
               Find Your Next Companion
-            </Typography>
+            </Typography> */}
             <Button
               variant="contained"
               onClick={() => setCanSearch(true)}

@@ -32,10 +32,10 @@ export const SignInSide = ({
       setError("400: Login not accepted");
     }
 
-    console.log({
-      name,
-      email,
-    });
+    // console.log({
+    //   name,
+    //   email,
+    // });
   };
 
   return (
@@ -79,7 +79,7 @@ export const SignInSide = ({
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Fake Email Address"
               name="email"
               autoComplete="email"
             />

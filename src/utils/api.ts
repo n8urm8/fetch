@@ -138,3 +138,26 @@ export const searchDogsByURL = async (newURL: string) => {
   const searchDogs: SearchResults = await response.json();
   return searchDogs;
 };
+
+export const getDogMatch = async (ids: string[]) => {
+  let url = API_URL + "/dogs/match";
+
+  const requestOptions = {
+    method: "POST",
+    mode: "cors" as RequestMode,
+    headers: {
+      "Access-Control-Allow-Origin": "localhost:5173",
+      "Content-Type": "application/json",
+    },
+    credentials: "include" as RequestCredentials,
+    withCredentials: true,
+    body: JSON.stringify(ids),
+  };
+  //console.log("name and email:", name, email);
+  let response = await fetch(url, requestOptions);
+  if (response.status != 200) {
+    window.location.reload();
+  }
+  const dogId: { match: string } = await response.json();
+  return dogId.match;
+};

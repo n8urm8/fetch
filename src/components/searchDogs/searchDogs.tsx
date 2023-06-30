@@ -15,29 +15,31 @@ import {
 } from "../../utils/api";
 import { Dog, SearchResults } from "../../utils/types";
 import { FilterForm } from "./filterForm";
+import { DogModal } from "../dogModal";
+import { Favorites } from "../favorites";
 
 export const SearchDogs: React.FC = () => {
   const [filter, openFilter] = useState(false);
   //default id list
   const [dogIds, setDogIds] = useState<string[]>([
-    "VXGFTIcBOvEgQ5OCx40W",
-    "V3GFTIcBOvEgQ5OCx40W",
-    "WHGFTIcBOvEgQ5OCx40W",
-    "W3GFTIcBOvEgQ5OCx40W",
-    "YnGFTIcBOvEgQ5OCx40W",
-    "Y3GFTIcBOvEgQ5OCx40W",
-    "aHGFTIcBOvEgQ5OCx40W",
-    "aXGFTIcBOvEgQ5OCx40W",
-    "bHGFTIcBOvEgQ5OCx40W",
-    "bnGFTIcBOvEgQ5OCx40W",
-    "cXGFTIcBOvEgQ5OCx40W",
-    "c3GFTIcBOvEgQ5OCx40W",
-    "dHGFTIcBOvEgQ5OCx40W",
-    "dnGFTIcBOvEgQ5OCx40W",
-    "eHGFTIcBOvEgQ5OCx40W",
-    "h3GFTIcBOvEgQ5OCx40W",
-    "iHGFTIcBOvEgQ5OCx40W",
-    "jnGFTIcBOvEgQ5OCx40W",
+    // "VXGFTIcBOvEgQ5OCx40W",
+    // "V3GFTIcBOvEgQ5OCx40W",
+    // "WHGFTIcBOvEgQ5OCx40W",
+    // "W3GFTIcBOvEgQ5OCx40W",
+    // "YnGFTIcBOvEgQ5OCx40W",
+    // "Y3GFTIcBOvEgQ5OCx40W",
+    // "aHGFTIcBOvEgQ5OCx40W",
+    // "aXGFTIcBOvEgQ5OCx40W",
+    // "bHGFTIcBOvEgQ5OCx40W",
+    // "bnGFTIcBOvEgQ5OCx40W",
+    // "cXGFTIcBOvEgQ5OCx40W",
+    // "c3GFTIcBOvEgQ5OCx40W",
+    // "dHGFTIcBOvEgQ5OCx40W",
+    // "dnGFTIcBOvEgQ5OCx40W",
+    // "eHGFTIcBOvEgQ5OCx40W",
+    // "h3GFTIcBOvEgQ5OCx40W",
+    // "iHGFTIcBOvEgQ5OCx40W",
+    // "jnGFTIcBOvEgQ5OCx40W",
   ]);
   const [breeds, setBreeds] = useState<string[]>([]);
   const [dogs, setDogs] = useState<Dog[]>([]);
@@ -45,10 +47,10 @@ export const SearchDogs: React.FC = () => {
   const [totalDogs, setTotalDogs] = useState<string>("");
   const [nextPage, setNextPage] = useState("");
   const [prevPage, setPrevPage] = useState("");
-  console.log("next url, prev url", nextPage, prevPage);
-  console.log("dogIds", dogIds);
-  //console.log("breeds", breeds);
-  console.log("dogs", dogs);
+  // console.log("next url, prev url", nextPage, prevPage);
+  // console.log("dogIds", dogIds);
+  // //console.log("breeds", breeds);
+  // console.log("dogs", dogs);
 
   const getNewDogsWithURL = async (url: string) => {
     let newDogIdList = await searchDogsByURL(url);
@@ -62,17 +64,20 @@ export const SearchDogs: React.FC = () => {
 
   // load initial results, need to add error catching
   useEffect(() => {
-    let dogsIDsResult = searchDogs({});
-    dogsIDsResult.then((res) => {
-      setDogIds(res.resultIds);
-      setNextPage(res.next);
-      setPrevPage(res.prev);
-      setTotalDogs(res.total);
-    });
-    const breedResults = getBreeds();
-    breedResults.then((res) => setBreeds(res));
-    const dogsResult = getDogsByIds(dogIds);
-    dogsResult.then((res) => setDogs(res));
+    const fetchDogs = async () => {
+      let dogsIDsResult = await searchDogs({});
+      setDogIds(dogsIDsResult.resultIds);
+      setNextPage(dogsIDsResult.next);
+      setPrevPage(dogsIDsResult.prev);
+      setTotalDogs(dogsIDsResult.total);
+
+      const breedResults = await getBreeds();
+      setBreeds(breedResults);
+
+      const dogsResult = await getDogsByIds(dogsIDsResult.resultIds);
+      setDogs(dogsResult);
+    };
+    fetchDogs();
   }, []);
 
   return (
@@ -122,6 +127,7 @@ export const SearchDogs: React.FC = () => {
               Dogs Found: {totalDogs}
             </Typography>
           </Box>
+          <Favorites />
           <ImageList
             cols={6}
             rowHeight={"auto"}
@@ -129,9 +135,7 @@ export const SearchDogs: React.FC = () => {
           >
             {dogs &&
               dogs.map((item) => (
-                <ImageListItem key={item.id}>
-                  <img src={`${item.img}`} alt={item.name} loading="lazy" />
-                </ImageListItem>
+                <DogModal key={item.id} dog={item} method="add" />
               ))}
           </ImageList>
           <ImageList
@@ -141,9 +145,7 @@ export const SearchDogs: React.FC = () => {
           >
             {dogs &&
               dogs.map((item) => (
-                <ImageListItem key={item.id}>
-                  <img src={`${item.img}`} alt={item.name} loading="lazy" />
-                </ImageListItem>
+                <DogModal key={item.id} dog={item} method="add" />
               ))}
           </ImageList>
         </>

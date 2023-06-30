@@ -1,0 +1,1 @@
+export { DogModal } from "./dogModal";

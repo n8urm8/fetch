@@ -36,3 +36,5 @@ export interface SearchResults {
 export interface Match {
   match: string;
 }
+
+export type updateFavoriteDogMethod = "add" | "remove";
